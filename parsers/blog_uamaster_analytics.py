@@ -21,7 +21,7 @@ def blog_uamaster_analytics():
 
         existing_data, existing_titles = read_file(excel_path)
     
-        driver = get_configured_driver(False)
+        driver = get_configured_driver(disable_javascript=False)
         url = "https://blog.uamaster.com/category/analytics/"
         driver.get(url)
         
