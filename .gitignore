@@ -1,0 +1,10 @@
+.idea/
+.ipynb_checkpoints/
+__pycache__/
+venv/
+parsed_data/
+parsed_data_arhiv/
+All parsers base.xlsx
+requests parser.ipynb
+selenium parser.ipynb
+Для парсингу дайджеста 2.xlsx
