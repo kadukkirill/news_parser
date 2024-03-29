@@ -28,7 +28,8 @@ def blog_uamaster_analytics():
         # Очікування провантаження сторінки (код чекає поки HTML сторінки з'явиться клас із шуканим ім'ям)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'card')))
         
-        for _ in tqdm(range(5), desc="Parsing blog_uamaster_analytics"):
+        # for _ in tqdm(range(5), desc="Parsing blog_uamaster_analytics"):
+        for i in range(5):
             try:
                 button_more = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.ID, "btn-more")))

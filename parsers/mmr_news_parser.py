@@ -17,19 +17,20 @@ def mmr_news_parser():
         limit = 15
 
         existing_data, existing_titles = read_file(excel_path)
-        driver = get_configured_driver()
+        driver = get_configured_driver(disable_javascript=False, headless=False)
         parsing_completed = False
         
         start_parsing_time = time.time()
 
-        for page in tqdm(range(page, limit + 1), desc="Parsing mmr_news"):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing mmr_news"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
 
             url = f"https://mmr.ua/news/page/{page}"
             driver.get(url)
             
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'def-article')))
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, 'def-article')))
 
             html = driver.page_source
             soup = BeautifulSoup(html, 'html.parser')

@@ -30,7 +30,8 @@ def gradus_app_parser():
 
         # Так як інформація на сайті з'являється динамічно, прокручуємо N раз сторінку
         find_element = driver.find_element(By.CLASS_NAME, "footer")
-        for _ in tqdm(range(1, 11), desc="Parsing gradus_app"):
+        # for _ in tqdm(range(1, 11), desc="Parsing gradus_app"):
+        for _ in range(1, 11):
             action = ActionChains(driver)
             action.move_to_element(find_element).perform()
             time.sleep(1)

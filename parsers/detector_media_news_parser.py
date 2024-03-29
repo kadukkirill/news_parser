@@ -27,7 +27,8 @@ def detector_media_news_parser():
         start_parsing_time = time.time()
         url = "https://detector.media/type/1/"
         
-        for page in tqdm(range(page, limit + 1), desc="Parsing detector_media_news"):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing detector_media_news"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
 

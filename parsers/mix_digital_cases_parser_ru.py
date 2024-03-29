@@ -23,7 +23,8 @@ def mix_digital_cases_parser_ru():
         
         start_parsing_time = time.time()
 
-        for page in tqdm(range(page, limit + 1), desc="Parsing mix_digital_cases_ru"):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing mix_digital_cases_ru"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
             

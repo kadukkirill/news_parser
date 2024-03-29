@@ -9,7 +9,7 @@ from utils.utils import process_data, read_file, load_dict_from_file
 from utils.webdriver_config import get_configured_driver
 
 def blog_uamaster_imarketing():
-    if 1:
+    try:
         # Файл для стандартизації назви місяця
         months_file_name = 'months.txt'
         months = load_dict_from_file(months_file_name) 
@@ -21,27 +21,30 @@ def blog_uamaster_imarketing():
 
         existing_data, existing_titles = read_file(excel_path)
     
-        driver = get_configured_driver(disable_javascript=False, headless=False)
+        driver = get_configured_driver(disable_javascript=False, headless=True)
         url = "https://blog.uamaster.com/category/i-marketing/"
         driver.get(url)
 
         # Очікування провантаження сторінки (код чекає поки HTML сторінки з'явиться клас із шуканим ім'ям)
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'card')))
         
-        for _ in tqdm(range(5), desc="Parsing blog_uamaster_imarketing"):
+        # for _ in tqdm(range(5), desc="Parsing blog_uamaster_imarketing"):
+        for _ in range(5):
             try:
                 button_more = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.ID, "btn-more")))
-                time.sleep(3)
-                print("click1")
+                time.sleep(1)
                 button_more.click()
             except ElementClickInterceptedException:
-                close_button = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, ".mc-closeModal")))
-                close_button.click()
-                time.sleep(1.5)  # Даем время для закрытия модального окна
-                print("click2")
-                button_more.click()  # Попробуем еще раз нажать на кнопку после закрытия модального окна
+                try:
+                    close_button = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, ".mc-closeModal")))
+                    close_button.click()
+                    time.sleep(1)  # Даем время для закрытия модального окна
+                    button_more.click()  # Попробуем еще раз нажать на кнопку после закрытия модального окна
+                except:
+                    # print("imarketing")
+                    pass
 
         
         html = driver.page_source
@@ -70,9 +73,9 @@ def blog_uamaster_imarketing():
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
         print(f"Час парсингу: {parsing_time} сек")
-    # except Exception as e:
-    #     print("Error:", e)
-    # finally:
+    except Exception as e:
+        print("Error:", e)
+    finally:
         driver.close()
         driver.quit()
 

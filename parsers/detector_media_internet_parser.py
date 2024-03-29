@@ -26,7 +26,8 @@ def detector_media_internet_parser():
         
         start_parsing_time = time.time()
 
-        for page in tqdm(range(page, limit + 1), desc="Parsing detector_media_internet"):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing detector_media_internet"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
 

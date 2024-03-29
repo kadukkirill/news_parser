@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 def get_configured_driver(disable_javascript=True, headless=True):
     chrome_options = Options()
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     chrome_options.add_argument("--disable-gpu")  # Отключает GPU hardware acceleration
     chrome_options.add_argument("--disable-images")  # Отключает загрузку изображений
     chrome_options.add_argument("--disable-extensions")  # Отключает расширения
