@@ -48,7 +48,7 @@ def gradus_app_parser():
             title = e.find(class_="reports__list-item__details__title").text
             temp_date = e.find(class_="reports__list-item__details__date").text.split()
             temp_date[0] = months.get(temp_date[0].lower())
-            date = " ".join(temp_date)
+            date = "1 " + " ".join(temp_date)
             link = url[:-17] + e.find(class_="reports__list-item__link").get("href")
             if title not in existing_titles:
                 data.append({
