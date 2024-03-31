@@ -17,6 +17,7 @@ from parsers import (
     the_drum_digital_parser,
     the_drum_media_parser,
     the_drum_marketing_parser,
+    warc_parser,
 )
 
 
@@ -47,9 +48,10 @@ def main():
         # mix_digital_cases_parser_ua.mix_digital_cases_parser_ua,
         # blog_uamaster_imarketing.blog_uamaster_imarketing,
         # blog_uamaster_analytics.blog_uamaster_analytics,
-        the_drum_digital_parser.the_drum_digital_parser,
-        the_drum_media_parser.the_drum_media_parser,
-        the_drum_marketing_parser.the_drum_marketing_parser,
+        # the_drum_digital_parser.the_drum_digital_parser,
+        # the_drum_media_parser.the_drum_media_parser,
+        # the_drum_marketing_parser.the_drum_marketing_parser,
+        warc_parser.warc_parser,
     
     ]
 

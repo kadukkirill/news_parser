@@ -8,13 +8,13 @@ from selenium.webdriver.common.action_chains import ActionChains
 from utils.utils import process_data, read_file, load_dict_from_file
 from utils.webdriver_config import get_configured_driver
 
-def gradus_app_parser():
+def warc_parser():
     try:
         # Файл для стандартизації назви місяця
         months_file_name = 'months.txt'
         months = load_dict_from_file(months_file_name) 
         
-        excel_path = "parsed_data/gradus_app.xlsx"        
+        excel_path = "parsed_data/warc.xlsx"        
         data = []
 
         start_parsing_time = time.time()
@@ -22,19 +22,23 @@ def gradus_app_parser():
         existing_data, existing_titles = read_file(excel_path)
     
         driver = get_configured_driver(disable_javascript=False)
-        url = "https://gradus.app/uk/open-reports/"
+        url = "https://www.warc.com/feed/"
         driver.get(url)
         
-        # Очікування провантаження сторінки (код чекає поки HTML сторінки з'явиться клас із шуканим ім'ям)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'reports__list-item')))
+        # Очікування провантаження сторінки (код чекає поки в HTML сторінки з'явиться клас із шуканим ім'ям)
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'modal')))
 
-        # Так як інформація на сайті з'являється динамічно, прокручуємо N раз сторінку
-        find_element = driver.find_element(By.CLASS_NAME, "footer")
-        # for _ in tqdm(range(1, 11), desc="Parsing gradus_app"):
-        for _ in range(1, 11):
+        button_cookies = WebDriverWait(driver, 15).until(EC.element_to_be_clickable((By.ID, "onetrust-accept-btn-handler")))
+        time.sleep(1)
+        button_cookies.click()
+
+        find_element = driver.find_element(By.CLASS_NAME, "hide-desktop")
+        for _ in range(1, 30):
             action = ActionChains(driver)
             action.move_to_element(find_element).perform()
-            time.sleep(1)
+            scroll_by = 'window.scrollBy(0, 300);'
+            driver.execute_script(scroll_by)
+            time.sleep(2)
         
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
@@ -42,17 +46,16 @@ def gradus_app_parser():
         if not soup.title or soup.title.text == "Just a moment...":
             print("Сайт блокує парсинг")
 
-        elements = soup.find("ul", class_="reports__list").findAll("li", class_="reports__list-item")
-        
+        elements = soup.find('section', id='feed-grid').findAll(class_="modal")
         for e in elements:
-            title = e.find(class_="reports__list-item__details__title").text
-            temp_date = e.find(class_="reports__list-item__details__date").text.split()
-            temp_date[0] = months.get(temp_date[0].lower())
-            date = " ".join(temp_date)
-            link = url[:-17] + e.find(class_="reports__list-item__link").get("href")
+            title = e.find(class_="feed-show-details").h5.text
             if title not in existing_titles:
+                temp_date = e.find(class_="tag date").text.split()
+                temp_date[1] = months.get(temp_date[1].lower())
+                date = " ".join(temp_date)
+                link = "https://www.warc.com/" + e["data-item-url"]
                 data.append({
-                    "site": "gradus.app/uk/open-reports",
+                    "site": "warc.com/feed",
                     "date": date,
                     "title": title,
                     "link": link,
@@ -70,4 +73,4 @@ def gradus_app_parser():
         driver.quit()
 
 if __name__ == "__main__":
-    gradus_app_parser()
+    warc_parser()
