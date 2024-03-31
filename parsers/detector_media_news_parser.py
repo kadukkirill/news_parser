@@ -16,7 +16,7 @@ def detector_media_news_parser():
         excel_path = "parsed_data/detector_media_news.xlsx"        
         data = []
         page = 1
-        limit = 30
+        limit = 35
         parsing_completed = False
         pattern = re.compile(r'cat_blkPost\s+cat_limit_\d+')
         pattern2 = re.compile(r"cat_blkPostTitle\s+global_ptitle(?:\s+blkStrong)?")
