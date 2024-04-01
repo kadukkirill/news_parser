@@ -18,6 +18,7 @@ from parsers import (
     the_drum_media_parser,
     the_drum_marketing_parser,
     warc_parser,
+    insiderintelligence_parser,
 )
 
 
@@ -41,7 +42,7 @@ def main():
         # detector_media_news_parser.detector_media_news_parser,
         # detector_media_rinok_parser.detector_media_rinok_parser,
         # detector_media_internet_parser.detector_media_internet_parser,
-        gradus_app_parser.gradus_app_parser,
+        # gradus_app_parser.gradus_app_parser,
         # mix_digital_news_parser_ru.mix_digital_news_parser_ru,
         # mix_digital_news_parser_ua.mix_digital_news_parser_ua,
         # mix_digital_cases_parser_ru.mix_digital_cases_parser_ru,
@@ -52,11 +53,12 @@ def main():
         # the_drum_media_parser.the_drum_media_parser,
         # the_drum_marketing_parser.the_drum_marketing_parser,
         # warc_parser.warc_parser,
+        insiderintelligence_parser.insiderintelligence_parser,
     
     ]
 
     # Ограничение числа одновременно выполняемых парсеров
-    max_workers = 3 # Можно подстроить в зависимости от доступных ресурсов
+    max_workers = 1 # Можно подстроить в зависимости от доступных ресурсов
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(run_parser, parsers)
 
