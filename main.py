@@ -19,6 +19,8 @@ from parsers import (
     the_drum_marketing_parser,
     warc_parser,
     insiderintelligence_parser,
+    campaignlive_parser,
+    strategyonline_parser,
 )
 
 
@@ -53,8 +55,9 @@ def main():
         # the_drum_media_parser.the_drum_media_parser,
         # the_drum_marketing_parser.the_drum_marketing_parser,
         # warc_parser.warc_parser,
-        insiderintelligence_parser.insiderintelligence_parser,
-    
+        # insiderintelligence_parser.insiderintelligence_parser,
+        # campaignlive_parser.campaignlive_parser,
+        strategyonline_parser.strategyonline_parser,
     ]
 
     # Ограничение числа одновременно выполняемых парсеров
