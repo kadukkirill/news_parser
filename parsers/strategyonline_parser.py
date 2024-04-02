@@ -27,8 +27,8 @@ def strategyonline_parser():
         driver = get_configured_driver()
         
         start_parsing_time = time.time()
-        for page in tqdm(range(page, limit + 1), desc="Parsing strategyonline"):
-        # for page in range(page, limit+1):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing strategyonline"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
 
@@ -52,6 +52,16 @@ def strategyonline_parser():
                 if "days" in e.find(class_="date").text.strip() or "day" in e.find(class_="date").text.strip():
                     days_ago = int(e.find(class_="date").text.strip().split()[0])
                     temp_date = (datetime.date.today() - datetime.timedelta(days=days_ago)).strftime('%d %m %Y').split()
+                    temp_date[1] = months.get(temp_date[1].lower())
+                    date = " ".join(temp_date) 
+                elif "week" in e.find(class_="date").text.strip() or "weeks" in e.find(class_="date").text.strip():
+                    days_ago = int(e.find(class_="date").text.strip().split()[0])
+                    days_ago *= 7
+                    temp_date = (datetime.date.today() - datetime.timedelta(days=days_ago)).strftime('%d %m %Y').split()
+                    temp_date[1] = months.get(temp_date[1].lower())
+                    date = " ".join(temp_date) 
+                elif "hour" in e.find(class_="date").text.strip() or "hours" in e.find(class_="date").text.strip() or "minute" in e.find(class_="date").text.strip() or "minutes" in e.find(class_="date").text.strip():
+                    temp_date = (datetime.date.today()).strftime('%d %m %Y').split()
                     temp_date[1] = months.get(temp_date[1].lower())
                     date = " ".join(temp_date) 
                 else:
@@ -83,15 +93,14 @@ def strategyonline_parser():
                     else:
                         parsing_completed = True
                         break
-
-
-            page += 1        
+            page += 1
+            time.sleep(2)
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу strategyonline_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error strategyonline_parser:", e)
     finally:
         driver.close()
         driver.quit()

@@ -72,9 +72,9 @@ def blog_uamaster_imarketing():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу blog_uamaster_imarketing: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error blog_uamaster_imarketing:", e)
     finally:
         driver.close()
         driver.quit()

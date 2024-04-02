@@ -25,12 +25,9 @@ from parsers import (
 
 
 def run_parser(parser_function):
-    try:
-        print(f"\nParsing {parser_function.__name__}")
-        parser_function()
-        print(f"Parser {parser_function.__name__} completed successfully")
-    except Exception as e:
-        print(f"Error in parser {parser_function.__name__}: {e}")
+    print(f"\n\033[92mParsing {parser_function.__name__}\033[0m")
+    parser_function()
+
 
 
 def main():
@@ -38,30 +35,30 @@ def main():
 
     # mmr_news з підвищеним захистом від cloudflare, тому з ним постійні проблеми
     parsers = [
-        # mmr_news_parser.mmr_news_parser,
-        # mmr_digital_parser.mmr_digital_parser,
-        # mmr_social_parser.mmr_social_parser,
-        # detector_media_news_parser.detector_media_news_parser,
-        # detector_media_rinok_parser.detector_media_rinok_parser,
-        # detector_media_internet_parser.detector_media_internet_parser,
-        # gradus_app_parser.gradus_app_parser,
-        # mix_digital_news_parser_ru.mix_digital_news_parser_ru,
-        # mix_digital_news_parser_ua.mix_digital_news_parser_ua,
-        # mix_digital_cases_parser_ru.mix_digital_cases_parser_ru,
-        # mix_digital_cases_parser_ua.mix_digital_cases_parser_ua,
-        # blog_uamaster_imarketing.blog_uamaster_imarketing,
-        # blog_uamaster_analytics.blog_uamaster_analytics,
-        # the_drum_digital_parser.the_drum_digital_parser,
-        # the_drum_media_parser.the_drum_media_parser,
-        # the_drum_marketing_parser.the_drum_marketing_parser,
-        # warc_parser.warc_parser,
-        # insiderintelligence_parser.insiderintelligence_parser,
-        # campaignlive_parser.campaignlive_parser,
+        mmr_news_parser.mmr_news_parser,
+        mmr_digital_parser.mmr_digital_parser,
+        mmr_social_parser.mmr_social_parser,
+        detector_media_news_parser.detector_media_news_parser,
+        detector_media_rinok_parser.detector_media_rinok_parser,
+        detector_media_internet_parser.detector_media_internet_parser,
+        gradus_app_parser.gradus_app_parser,
+        mix_digital_news_parser_ru.mix_digital_news_parser_ru,
+        mix_digital_news_parser_ua.mix_digital_news_parser_ua,
+        mix_digital_cases_parser_ru.mix_digital_cases_parser_ru,
+        mix_digital_cases_parser_ua.mix_digital_cases_parser_ua,
+        blog_uamaster_imarketing.blog_uamaster_imarketing,
+        blog_uamaster_analytics.blog_uamaster_analytics,
+        the_drum_digital_parser.the_drum_digital_parser,
+        the_drum_media_parser.the_drum_media_parser,
+        the_drum_marketing_parser.the_drum_marketing_parser,
+        warc_parser.warc_parser,
+        insiderintelligence_parser.insiderintelligence_parser,
+        campaignlive_parser.campaignlive_parser,
         strategyonline_parser.strategyonline_parser,
     ]
 
-    # Ограничение числа одновременно выполняемых парсеров
-    max_workers = 1 # Можно подстроить в зависимости от доступных ресурсов
+    # Ліміт одночасно працюючих парсерів
+    max_workers = 3 # Чим більше значення, тим більше ресурсів компа їсть
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(run_parser, parsers)
 

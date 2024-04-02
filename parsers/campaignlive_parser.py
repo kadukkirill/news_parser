@@ -1,4 +1,5 @@
 import time
+import datetime
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
@@ -39,14 +40,31 @@ def campaignlive_parser():
 
         if not soup.title or soup.title.text == "Just a moment...":
             print("Сайт блокує парсинг")
+            
         elements = soup.find("div", class_="group1").findAll(class_="storyContent clearfix")
         for e in elements:
             title = e.find(class_="contentWrapper contentDetails").find("a", attrs={'title': True})["title"]
             if title not in existing_titles:
-                temp_date = e.find(class_="articleDate").text.replace(",", "").split()
-                temp_date[0] = months.get(temp_date[0].lower())
-                temp_date[0], temp_date[1] = temp_date[1], temp_date[0]
-                date = " ".join(temp_date)
+                if "days" in e.find(class_="articleDate").text.strip() or "day" in e.find(class_="articleDate").text.strip():
+                    days_ago = int(e.find(class_="articleDate").text.strip().split()[0])
+                    temp_date = (datetime.date.today() - datetime.timedelta(days=days_ago)).strftime('%d %m %Y').split()
+                    temp_date[1] = months.get(temp_date[1].lower())
+                    date = " ".join(temp_date) 
+                elif "week" in e.find(class_="articleDate").text.strip() or "weeks" in e.find(class_="articleDate").text.strip():
+                    days_ago = int(e.find(class_="articleDate").text.strip().split()[0])
+                    days_ago *= 7
+                    temp_date = (datetime.date.today() - datetime.timedelta(days=days_ago)).strftime('%d %m %Y').split()
+                    temp_date[1] = months.get(temp_date[1].lower())
+                    date = " ".join(temp_date) 
+                elif "hour" in e.find(class_="articleDate").text.strip() or "hours" in e.find(class_="articleDate").text.strip() or "minute" in e.find(class_="articleDate").text.strip()  or "minutes" in e.find(class_="articleDate").text.strip():
+                    temp_date = datetime.date.today().strftime('%d %m %Y').split()
+                    temp_date[1] = months.get(temp_date[1].lower())
+                    date = " ".join(temp_date)   
+                else:
+                    temp_date = e.find(class_="articleDate").text.strip().replace(",", "").split()
+                    temp_date[0] = months.get(temp_date[0].lower())
+                    temp_date[0], temp_date[1] = temp_date[1], temp_date[0]
+                    date = " ".join(temp_date)
                 link = e.find(class_="contentWrapper contentDetails").find("a", attrs={"data-url": True})["data-url"]
                 data.append({
                     "site": "campaignlive.co.uk/news",
@@ -59,9 +77,9 @@ def campaignlive_parser():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу campaignlive_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error campaignlive_parser:", e)
     finally:
         driver.close()
         driver.quit()

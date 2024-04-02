@@ -89,9 +89,9 @@ def mix_digital_news_parser_ua():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу mix_digital_news_parser_ua: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error mix_digital_news_parser_ua:", e)
     finally:
         driver.close()
         driver.quit()

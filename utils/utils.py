@@ -6,9 +6,9 @@ def process_data(data, existing_data, excel_path):
         new_df = pd.DataFrame(data)
         updated_df = pd.concat([existing_data, new_df], ignore_index=True)
         updated_df.to_excel(excel_path, index=False)
-        print("Файл оновлено новинами")
-    else:
-        print("Новин не знайдено")
+        # print("Файл оновлено новинами")
+    # else:
+    #     print("Новин не знайдено")
 
 def read_file(excel_path):    
     if Path(excel_path).exists():

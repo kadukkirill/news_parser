@@ -26,10 +26,10 @@ def warc_parser():
         driver.get(url)
         
         # Очікування провантаження сторінки (код чекає поки в HTML сторінки з'явиться клас із шуканим ім'ям)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'modal')))
+        WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CLASS_NAME, 'modal')))
 
         button_cookies = WebDriverWait(driver, 15).until(EC.element_to_be_clickable((By.ID, "onetrust-accept-btn-handler")))
-        time.sleep(1)
+        time.sleep(2)
         button_cookies.click()
 
         find_element = driver.find_element(By.CLASS_NAME, "hide-desktop")
@@ -38,7 +38,7 @@ def warc_parser():
             action.move_to_element(find_element).perform()
             scroll_by = 'window.scrollBy(0, 300);'
             driver.execute_script(scroll_by)
-            time.sleep(2)
+            time.sleep(10)
         
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
@@ -65,9 +65,9 @@ def warc_parser():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу warc_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error warc_parser:", e)
     finally:
         driver.close()
         driver.quit()

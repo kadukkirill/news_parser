@@ -26,8 +26,11 @@ def blog_uamaster_analytics():
         driver.get(url)
         
         # Очікування провантаження сторінки (код чекає поки HTML сторінки з'явиться клас із шуканим ім'ям)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'card')))
-        
+        try:
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'card')))
+        except:
+            print("loading error")
+            
         # for _ in tqdm(range(5), desc="Parsing blog_uamaster_analytics"):
         for i in range(5):
             try:
@@ -67,9 +70,9 @@ def blog_uamaster_analytics():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу blog_uamaster_analytics: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error blog_uamaster_analytics:", e)
     finally:
         driver.close()
         driver.quit()

@@ -22,8 +22,8 @@ def insiderintelligence_parser():
         driver = get_configured_driver()
         
         start_parsing_time = time.time()
-        for page in tqdm(range(page, limit + 1), desc="Parsing insiderintelligence"):
-        # for page in range(page, limit+1):
+        # for page in tqdm(range(page, limit + 1), desc="Parsing insiderintelligence"):
+        for page in range(page, limit+1):
             if parsing_completed:
                 break  # Выход из цикла если парсинг завершен
 
@@ -67,9 +67,9 @@ def insiderintelligence_parser():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу insiderintelligence_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error insiderintelligence_parser:", e)
     finally:
         driver.close()
         driver.quit()

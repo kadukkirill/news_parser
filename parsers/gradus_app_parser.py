@@ -62,9 +62,9 @@ def gradus_app_parser():
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу gradus_app_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error gradus_app_parser:", e)
     finally:
         driver.close()
         driver.quit()

@@ -33,7 +33,7 @@ def the_drum_marketing_parser():
             driver.get(url)
             
             try:
-                WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "hub__articles-data")))
+                WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.CLASS_NAME, "hub__articles-data")))
             except:
                 break
                 
@@ -98,13 +98,14 @@ def the_drum_marketing_parser():
                     parsing_completed = True
                     break
             page += 1
+            time.sleep(2)
 
 
         process_data(data, existing_data, excel_path)
         parsing_time = round(time.time()-start_parsing_time)
-        print(f"Час парсингу: {parsing_time} сек")
+        print(f"Час парсингу the_drum_marketing_parser: {parsing_time} сек")
     except Exception as e:
-        print("Error:", e)
+        print("Error the_drum_marketing_parser:", e)
     finally:
         driver.close()
         driver.quit()
